@@ -18,7 +18,7 @@ const routes = require('./api/routes/router');
   const app = express();
   app.use(cors({ origin: FRONTEND_URL, credentials: true }));
   app.use(express.json());
-  app.use(cookieParser('ezfsfsef'));
+  app.use(cookieParser());
   app.get('/', (req, res) => { res.send('Griffith Keep API'); });
   app.use('/api', routes);
   app.listen(PORT, () => { console.info(`Server running on port: ${PORT}`); });
