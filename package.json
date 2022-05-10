@@ -29,7 +29,10 @@
   },
   "homepage": "https://github.com/BaptisteMartinet/griffith-keep-api#readme",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.0",
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "mongoose": "^6.3.3"
   }
 }
