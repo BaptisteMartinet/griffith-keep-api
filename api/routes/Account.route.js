@@ -42,10 +42,7 @@ router.post('/login', async (req, res) => {
   if (!(await bcrypt.compare(password, user.password)))
     return res.status(400).send('Invalid credentials.');
   const token = jwt.sign({ user: user.id }, process.env.JWT_SECRET_KEY, { expiresIn: '24h' });
-  res.header('Access-Control-Allow-Credentials', true);
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,UPDATE,OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
-  res.cookie('x-access-token', token, { expires: new Date(Date.now() + 86400000), httpOnly: true, secure: true, domain: 'vercel.app' });
+  res.cookie('x-access-token', token, { expires: new Date(Date.now() + 86400000), secure: true, sameSite: 'none' });
   res.json(user);
 });
 
