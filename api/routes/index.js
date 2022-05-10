@@ -1,2 +1,2 @@
-exports.UserRouter = require('./User.route');
+exports.AccountRouter = require('./Account.route');
 exports.NoteRouter = require('./Note.route');
