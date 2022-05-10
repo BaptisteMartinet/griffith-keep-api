@@ -16,9 +16,9 @@ const routes = require('./api/routes/router');
   console.info('Database successfully connected.');
   // Setting up Express
   const app = express();
-  app.use(cors({ origin: true, credentials: true }));
+  app.use(cors({ origin: FRONTEND_URL, credentials: true }));
   app.use(express.json());
-  app.use(cookieParser('ezfsfsef'));
+  app.use(cookieParser());
   app.get('/', (req, res) => { res.send('Griffith Keep API'); });
   app.use('/api', routes);
   app.listen(PORT, () => { console.info(`Server running on port: ${PORT}`); });
