@@ -1,0 +1,28 @@
+{
+  "name": "griffith-keep-api",
+  "version": "1.0.0",
+  "description": "The Griffith Keep API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BaptisteMartinet/griffith-keep-api.git"
+  },
+  "keywords": [
+    "google",
+    "keep",
+    "griffith",
+    "node",
+    "express",
+    "mongodb"
+  ],
+  "author": "Baptiste Martinet",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BaptisteMartinet/griffith-keep-api/issues"
+  },
+  "homepage": "https://github.com/BaptisteMartinet/griffith-keep-api#readme"
+}
