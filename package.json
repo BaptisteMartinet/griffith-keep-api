@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/BaptisteMartinet/griffith-keep-api/issues"
   },
-  "homepage": "https://github.com/BaptisteMartinet/griffith-keep-api#readme"
+  "homepage": "https://github.com/BaptisteMartinet/griffith-keep-api#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
 }
