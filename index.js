@@ -7,8 +7,8 @@ const routes = require('./api/routes/router');
 
 (async () => {
   const PORT = process.env.PORT ?? 3000;
-  const { ENVIRONMENT, DATABASE_URI } = process.env;
-  if (!DATABASE_URI)
+  const { ENVIRONMENT, DATABASE_URI, FRONTEND_URL } = process.env;
+  if (!DATABASE_URI || !FRONTEND_URL)
     return console.error('Invalid .env configuration');
   // Setting up MongoDB
   mongoose.set('debug', (ENVIRONMENT === 'dev'));
@@ -16,7 +16,7 @@ const routes = require('./api/routes/router');
   console.info('Database successfully connected.');
   // Setting up Express
   const app = express();
-  app.use(cors({ origin: 'http://localhost:4200', credentials: true }));
+  app.use(cors({ origin: FRONTEND_URL, credentials: true }));
   app.use(express.json());
   app.use(cookieParser());
   app.get('/', (req, res) => { res.send('Griffith Keep API'); });
