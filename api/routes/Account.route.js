@@ -42,7 +42,7 @@ router.post('/login', async (req, res) => {
   if (!(await bcrypt.compare(password, user.password)))
     return res.status(400).send('Invalid credentials.');
   const token = jwt.sign({ user: user.id }, process.env.JWT_SECRET_KEY, { expiresIn: '24h' });
-  res.cookie('x-access-token', token, { expires: new Date(Date.now() + 86400000), httpOnly: true, secure: true, sameSite: 'none' });
+  res.cookie('x-access-token', token, { expires: new Date(Date.now() + 86400000), httpOnly: true, secure: true, sameSite: false });
   res.json(user);
 });
 
