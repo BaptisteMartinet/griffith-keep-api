@@ -15,7 +15,7 @@ router.get('/', auth, async (req, res) => {
 });
 
 router.post('/', auth, async (req, res) => {
-  const { assignee: assigneeEmailsStr, ...rest } = req.body;
+  const { assigneeEmailsStr, ...rest } = req.body;
   const assigneeEmails = assigneeEmailsStr.split(';');
   const assignee = await User.find({ email: { $in: assigneeEmails } });
   const assigneeIds = assignee.reduce((prev, curr) => (prev.push(curr._id)), []);
