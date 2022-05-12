@@ -4,21 +4,26 @@ const { User, Note } = require('../models');
 const router = express.Router();
 
 router.get('/', auth, async (req, res) => {
-  const notes = await Note.find({
-    author: req.ctx.user,
-    assignee: req.ctx.user,
-  }).populate([
+  const notes = await Note.find({ author: req.ctx.user }).populate([
     { path: 'author', model: 'User' },
-    { path: 'assigned', model: 'User' },
+    { path: 'assignee', model: 'User' },
   ]);
   res.json(notes);
 });
 
-router.post('/', auth, async (req, res) => {
-  const { assigneeEmailsStr, ...rest } = req.body;
+async function getAssignee(assigneeEmailsStr)
+{
+  if (!assigneeEmailsStr)
+    return null;
   const assigneeEmails = assigneeEmailsStr.split(';');
   const assignee = await User.find({ email: { $in: assigneeEmails } });
   const assigneeIds = assignee.reduce((prev, curr) => (prev.push(curr._id)), []);
+  return assigneeIds;
+}
+
+router.post('/', auth, async (req, res) => {
+  const { assigneeEmailsStr, ...rest } = req.body;
+  const assigneeIds = await getAssignee(assigneeEmailsStr);
   await Note.create({
     author: req.ctx.user,
     assignee: assigneeIds,
