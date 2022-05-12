@@ -1,10 +1,13 @@
 const express = require('express');
 const auth = require('../middlewares/auth.middleware');
-const { Note } = require('../models');
+const { User, Note } = require('../models');
 const router = express.Router();
 
 router.get('/', auth, async (req, res) => {
-  const notes = await Note.find({ author: req.ctx.user }).populate([
+  const notes = await Note.find({
+    author: req.ctx.user,
+    assignee: req.ctx.user,
+  }).populate([
     { path: 'author', model: 'User' },
     { path: 'assigned', model: 'User' },
   ]);
@@ -12,9 +15,14 @@ router.get('/', auth, async (req, res) => {
 });
 
 router.post('/', auth, async (req, res) => {
+  const { assignee: assigneeEmailsStr, ...rest } = req.body;
+  const assigneeEmails = assigneeEmailsStr.split(';');
+  const assignee = await User.find({ email: { $in: assigneeEmails } });
+  const assigneeIds = assignee.reduce((prev, curr) => (prev.push(curr._id)), []);
   await Note.create({
     author: req.ctx.user,
-    ...req.body,
+    assignee: assigneeIds,
+    ...rest,
   });
   res.sendStatus(200);
 });
