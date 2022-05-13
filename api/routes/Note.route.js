@@ -4,15 +4,31 @@ const { User, Note } = require('../models');
 const router = express.Router();
 
 router.get('/', auth, async (req, res) => {
-  const notes = await Note.find({ author: req.ctx.user }).populate([
+  const { searchTerm } = req.query;
+  const filter = {
+    $and: [
+      {
+        $or: [
+          { author: req.ctx.user },
+          { assignee: req.ctx.user },
+        ],
+      },
+      (searchTerm ? {
+        $or: [
+          { title: { $regex: searchTerm, $options: 'i' } },
+          { body: { $regex: searchTerm, $options: 'i' } },
+        ],
+      } : {})
+    ]
+  }
+  const notes = await Note.find(filter).populate([
     { path: 'author', model: 'User' },
     { path: 'assignee', model: 'User' },
   ]);
   res.json(notes);
 });
 
-async function getAssignee(assigneeEmailsStr)
-{
+async function getAssignee(assigneeEmailsStr) {
   if (!assigneeEmailsStr)
     return null;
   const assigneeEmails = assigneeEmailsStr.split(';');
