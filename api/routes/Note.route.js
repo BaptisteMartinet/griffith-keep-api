@@ -16,17 +16,15 @@ async function getAssignee(assigneeEmailsStr)
   if (!assigneeEmailsStr)
     return null;
   const assigneeEmails = assigneeEmailsStr.split(';');
-  const assignee = await User.find({ email: { $in: assigneeEmails } });
-  const assigneeIds = assignee.reduce((prev, curr) => (prev.push(curr._id)), []);
-  return assigneeIds;
+  return User.find({ email: { $in: assigneeEmails } });
 }
 
 router.post('/', auth, async (req, res) => {
   const { assigneeEmailsStr, ...rest } = req.body;
-  const assigneeIds = await getAssignee(assigneeEmailsStr);
+  const assignee = await getAssignee(assigneeEmailsStr);
   await Note.create({
     author: req.ctx.user,
-    assignee: assigneeIds,
+    assignee,
     ...rest,
   });
   res.sendStatus(200);
