@@ -48,12 +48,15 @@ router.post('/', auth, async (req, res) => {
 
 router.patch('/:id', auth, async (req, res) => {
   const { id: noteId } = req.params;
+  const { assigneeEmailsStr, ...rest } = req.body;
   const note = await Note.findById(noteId);
   if (!note)
     return res.sendStatus(404);
   if (note.author != req.ctx.user)
     return res.sendStatus(403);
-  Object.assign(note, req.body);
+  const assignee = await getAssignee(assigneeEmailsStr);
+  Object.assign(note, rest);
+  Object.assign(note, { assignee });
   await note.save();
   res.sendStatus(200);
 });
