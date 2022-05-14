@@ -3,6 +3,10 @@ const auth = require('../middlewares/auth.middleware');
 const { User, Note } = require('../models');
 const router = express.Router();
 
+/**
+ * @description Get notes where user is either the author or assigned
+ * @param searchTerm A search term to filter notes by their title/body
+ */
 router.get('/', auth, async (req, res) => {
   const { searchTerm } = req.query;
   const filter = {
@@ -35,6 +39,9 @@ async function getAssignee(assigneeEmailsStr) {
   return User.find({ email: { $in: assigneeEmails } });
 }
 
+/**
+ * @description Create a new note
+ */
 router.post('/', auth, async (req, res) => {
   const { assigneeEmailsStr, ...rest } = req.body;
   const assignee = await getAssignee(assigneeEmailsStr);
@@ -46,6 +53,9 @@ router.post('/', auth, async (req, res) => {
   res.sendStatus(200);
 });
 
+/**
+ * @description Update an existing note
+ */
 router.patch('/:id', auth, async (req, res) => {
   const { id: noteId } = req.params;
   const { assigneeEmailsStr, ...rest } = req.body;
@@ -61,6 +71,9 @@ router.patch('/:id', auth, async (req, res) => {
   res.sendStatus(200);
 });
 
+/**
+ * @description Delete an existing note
+ */
 router.delete('/:id', auth, async (req, res) => {
   const { id: noteId } = req.params;
   const note = await Note.findById(noteId);

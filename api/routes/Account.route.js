@@ -5,6 +5,9 @@ const auth = require('../middlewares/auth.middleware');
 const { User } = require('../models');
 const router = express.Router();
 
+/**
+ * @description Return the authentified user
+ */
 router.get('/currentUser', auth, async (req, res) => {
   const user = await User.findById(req.ctx.user);
   if (!user)
