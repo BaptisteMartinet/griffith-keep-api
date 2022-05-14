@@ -25,7 +25,7 @@ router.get('/', auth, async (req, res) => {
       } : {})
     ]
   }
-  const notes = await Note.find(filter).populate([
+  const notes = await Note.find(filter, null, { sort: { 'createdAt': 'descending' } }).populate([
     { path: 'author', model: 'User' },
     { path: 'assignee', model: 'User' },
   ]);
