@@ -19,7 +19,7 @@ const routes = require('./api/routes/router');
   const app = express();
   app.use(cors({
     origin: (origin, callback) => {
-      if (originsWhitelist.indexOf(origin) !== -1) {
+      if (!origin || originsWhitelist.indexOf(origin) !== -1) {
         callback(null, true)
       } else {
         callback(new Error('Not allowed by CORS'))
