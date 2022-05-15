@@ -16,7 +16,9 @@ router.get('/currentUser', auth, async (req, res) => {
 });
 
 router.get('/logout', auth, async (req, res) => {
-  res.clearCookie('x-access-token', { httpOnly: true, secure: true, sameSite: 'none', path: '/', domain: '.vercel.app' }).sendStatus(200);
+  res.cookie('test-token', 'salut a tous', { expires: new Date(Date.now() + 86400000), httpOnly: true, secure: true, sameSite: 'none' });
+  res.send('OK');
+  // res.clearCookie('x-access-token', { httpOnly: true, secure: true, sameSite: 'none', path: '/', domain: '.vercel.app' }).sendStatus(200);
 });
 
 /**
