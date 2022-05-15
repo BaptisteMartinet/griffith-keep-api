@@ -15,9 +15,9 @@ router.get('/currentUser', auth, async (req, res) => {
   res.json(user);
 });
 
-router.get('/logout', auth, async (req, res) => {
-  res.cookie('test-token', 'salut a tous', { expires: new Date(Date.now() + 86400000), httpOnly: true, secure: true, sameSite: 'none' });
-  res.send('OK');
+router.post('/logout', auth, async (req, res) => {
+  res.cookie('test-token', 'zjefijzepfj', { expires: new Date(Date.now() + 86400000), httpOnly: true, secure: true, sameSite: 'none' });
+  res.sendStatus(200);
   // res.clearCookie('x-access-token', { httpOnly: true, secure: true, sameSite: 'none', path: '/', domain: '.vercel.app' }).sendStatus(200);
 });
 
