@@ -16,7 +16,7 @@ router.get('/currentUser', auth, async (req, res) => {
 });
 
 router.get('/logout', auth, async (req, res) => {
-  res.clearCookie('x-access-token', { httpOnly: true, secure: true, sameSite: 'none' }).sendStatus(200);
+  res.clearCookie('x-access-token', { path: '/', domain: 'griffith-keep.vercel.app' }).sendStatus(200);
 });
 
 /**
